@@ -77,4 +77,4 @@ From [Step 1](#step-1-install-cairo-10-guide-by-abdel), the `cairo-language-serv
 $ which cairo-language-server | pbcopy
 ```
 
-Update the `languageServerPath` of the Cairo 1.0 extension by pasting the path.%                                                
+Update the `languageServerPath` of the Cairo 1.0 extension by pasting the path.%

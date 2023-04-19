@@ -38,7 +38,7 @@ mod Ex14 {
     use starknet_cairo_101::utils::ex00_base::Ex00Base::update_class_hash_by_admin;
     use starknet_cairo_101::token::IERC20::IERC20Dispatcher;
     use starknet_cairo_101::token::IERC20::IERC20DispatcherTrait;
-    use super::IAllInOneContractDispatcher;
+    use super::IAllInOneContractDispatcher; // super means that we are importing from the same file
     use super::IAllInOneContractDispatcherTrait;
 
     ////////////////////////////////
