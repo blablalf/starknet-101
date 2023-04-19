@@ -60,6 +60,23 @@ trait Iex08 {
     fn claim_points();
 }
 
+#[abi]
+trait Iex09 {
+    fn claim_points(array: Array::<u128>);
+}
+
+#[abi]
+trait Iex10 {
+    fn get_ex10b_address() -> ContractAddress;
+    fn claim_points(secret_value_i_guess: u128, next_secret_value_i_chose: u128);
+}
+
+#[abi]
+trait Iex10b {
+    fn get_secret_value() -> u128;
+    fn claim_points(secret_value_i_guess: u128, next_secret_value_i_chose: u128);
+}
+
 #[contract]
 mod ValidateCairo101 {
     ////////////////////////////////
@@ -69,7 +86,7 @@ mod ValidateCairo101 {
     use starknet::get_caller_address;
     use starknet::get_contract_address;
     use starknet::ContractAddress;
-    //use super::ArrayTrait;
+    use array::ArrayTrait;
     
     ////////////////////////////////
     // Internal imports
@@ -92,6 +109,12 @@ mod ValidateCairo101 {
     use super::Iex07DispatcherTrait;
     use super::Iex08Dispatcher;
     use super::Iex08DispatcherTrait;
+    use super::Iex09Dispatcher;
+    use super::Iex09DispatcherTrait;
+    use super::Iex10Dispatcher;
+    use super::Iex10DispatcherTrait;
+    use super::Iex10bDispatcher;
+    use super::Iex10bDispatcherTrait;
 
     struct Storage {
         ex01_address: ContractAddress,
@@ -134,6 +157,7 @@ mod ValidateCairo101 {
             ex06();
             ex07();
             ex08();
+            ex09();
         }
     }
 
@@ -203,6 +227,22 @@ mod ValidateCairo101 {
         values.append(10_u128);
         Iex08Dispatcher { contract_address: ex08_address::read() }.set_user_values(get_contract_address(), values); // or contract_address
         Iex08Dispatcher { contract_address: ex08_address::read() }.claim_points();
+    }
+
+    fn ex09() {
+        let mut values = ArrayTrait::new();
+        values.append(10_u128);
+        values.append(10_u128);
+        values.append(10_u128);
+        values.append(10_u128);
+        values.append(10_u128);
+        Iex09Dispatcher { contract_address: ex09_address::read() }.claim_points();
+    }
+
+    fn ex10() {
+        let ex10b_address = Iex10Dispatcher{contract_address: ex10_address}.get_ex10b_address();
+        let value = Iex10bDispatcher{contract_address: ex10b_address}.get_secret_value();
+        Iex10Dispatcher { contract_address: ex10_address::read() }.claim_points(value, value + 3223_u128);
     }
 
 }
