@@ -77,6 +77,12 @@ trait Iex10b {
     fn claim_points(secret_value_i_guess: u128, next_secret_value_i_chose: u128);
 }
 
+#[abi]
+trait Iex11 {
+    fn secret_value() -> u128;
+    fn claim_points(secret_value_i_guess: u128, next_secret_value_i_chose: u128);
+}
+
 #[contract]
 mod ValidateCairo101 {
     ////////////////////////////////
@@ -115,6 +121,8 @@ mod ValidateCairo101 {
     use super::Iex10DispatcherTrait;
     use super::Iex10bDispatcher;
     use super::Iex10bDispatcherTrait;
+    use super::Iex11Dispatcher;
+    use super::Iex11DispatcherTrait;
 
     struct Storage {
         ex01_address: ContractAddress,
@@ -158,6 +166,8 @@ mod ValidateCairo101 {
             ex07();
             ex08();
             ex09();
+            ex10();
+            //ex11();
         }
     }
 
@@ -236,13 +246,22 @@ mod ValidateCairo101 {
         values.append(10_u128);
         values.append(10_u128);
         values.append(10_u128);
-        Iex09Dispatcher { contract_address: ex09_address::read() }.claim_points();
+        Iex09Dispatcher { contract_address: ex09_address::read() }.claim_points(values);
     }
 
     fn ex10() {
-        let ex10b_address = Iex10Dispatcher{contract_address: ex10_address}.get_ex10b_address();
-        let value = Iex10bDispatcher{contract_address: ex10b_address}.get_secret_value();
+        let ex10b_address = Iex10Dispatcher{contract_address: ex10_address::read() }.get_ex10b_address();
+        let value = Iex10bDispatcher{contract_address: ex10b_address }.get_secret_value();
         Iex10Dispatcher { contract_address: ex10_address::read() }.claim_points(value, value + 3223_u128);
     }
+
+//    fn ex11() {
+//        let mut value = Iex11Dispatcher { contract_address: ex11_address::read() }.secret_value();
+//        if (value > 340282366920938463463374607431768211455_u128 - 42069_u128)
+//        {value -= 42069_u128;}
+//        else
+//        {value += 42069_u128;}
+//        
+//    }
 
 }
