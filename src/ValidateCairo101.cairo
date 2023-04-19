@@ -262,9 +262,9 @@ mod ValidateCairo101 {
 
     fn ex11() {
         let mut value = Iex11Dispatcher { contract_address: ex11_address::read() }.secret_value();
-        if (value > 340282366920938463463374607431768211455_u128 - 42069_u128) { value -= 42069_u128; }
-        else { value += 42069_u128; }
-        Iex11Dispatcher { contract_address: ex11_address::read() }.claim_points(value, 1_u128);
+        if (value > 340282366920938463463374607431768211455_u128 - 42069_u128) { value += 42069_u128; }
+        else { value -= 42069_u128; }
+        Iex11Dispatcher { contract_address: ex11_address::read() }.claim_points(value, 101_u128);
     }
 
 }
