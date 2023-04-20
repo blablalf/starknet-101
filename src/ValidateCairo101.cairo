@@ -83,6 +83,16 @@ trait Iex11 {
     fn claim_points(secret_value_i_guess: u128, next_secret_value_i_chose: u128);
 }
 
+#[abi]
+trait Iex12 {
+    fn assign_user_slot();
+    fn claim_points(expected_value: u128);
+}
+
+#[abi]
+trait Iex13 {
+}
+
 #[contract]
 mod ValidateCairo101 {
     ////////////////////////////////
@@ -123,6 +133,10 @@ mod ValidateCairo101 {
     use super::Iex10bDispatcherTrait;
     use super::Iex11Dispatcher;
     use super::Iex11DispatcherTrait;
+    use super::Iex12Dispatcher;
+    use super::Iex12DispatcherTrait;
+    use super::Iex13Dispatcher;
+    use super::Iex13DispatcherTrait;
 
     struct Storage {
         ex01_address: ContractAddress,
@@ -136,6 +150,8 @@ mod ValidateCairo101 {
         ex09_address: ContractAddress,
         ex10_address: ContractAddress,
         ex11_address: ContractAddress,
+        ex12_address: ContractAddress,
+        ex13_address: ContractAddress,
         ex14_address: ContractAddress,
     }
 
@@ -152,6 +168,8 @@ mod ValidateCairo101 {
         ex09_address::write(starknet::contract_address_const::<0x053b96c4ee027c53ea001479f24c10b543063e3c26d037c600e5bd31f0b21e5c>());
         ex10_address::write(starknet::contract_address_const::<0x0763e89551900eba82d757a9f3862935cc7f7e47538f01ddba514f23d9a5f6e0>());
         ex11_address::write(starknet::contract_address_const::<0x029a9a484d22a6353eff0d60ea56c6ffabaaac5e4889182287ef1d261578b197>());
+        ex12_address::write(starknet::contract_address_const::<0x04a221a8e3155fb03d1708881213a2ecdb05a41cf0ae6de83ddcf8f12bb04282>());
+        ex13_address::write(starknet::contract_address_const::<0x067ed1d23c5cc3a34fb86edd4f8415250c79a374e87bcf2e6870321261ca9b0f>());
         ex14_address::write(starknet::contract_address_const::<0x031e9a701a24c1d2ecd576208087dfa52f1025072cf11e54407300f64f95ce5f>());
     }
 
@@ -167,7 +185,9 @@ mod ValidateCairo101 {
             ex08();
             ex09();
             ex10();
-            //ex11();
+            ex11();
+            ex12();
+            ex13();
         }
     }
 
@@ -265,6 +285,17 @@ mod ValidateCairo101 {
         if (value > 340282366920938463463374607431768211455_u128 - 42069_u128) { value += 42069_u128; }
         else { value -= 42069_u128; }
         Iex11Dispatcher { contract_address: ex11_address::read() }.claim_points(value, 101_u128);
+    }
+
+    fn ex12() {
+        Iex12Dispatcher { contract_address: ex12_address::read() }.assign_user_slot(); // We need to listen to the event here
+        // let value = ???
+        Iex12Dispatcher { contract_address: ex12_address::read() }.claim_points(0_u128);
+
+    }
+
+    fn ex13() {
+        
     }
 
 }
