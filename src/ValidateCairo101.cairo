@@ -113,7 +113,6 @@ mod ValidateCairo101 {
     // Internal imports
     // These functions become part of the set of functions of the contract
     ////////////////////////////////
-    use starknet_cairo_101::ex14::IAllInOneContract;
     use super::Iex01Dispatcher;
     use super::Iex01DispatcherTrait;
     use super::Iex02Dispatcher;
@@ -180,27 +179,19 @@ mod ValidateCairo101 {
         ex14_address::write(starknet::contract_address_const::<0x031e9a701a24c1d2ecd576208087dfa52f1025072cf11e54407300f64f95ce5f>());
     }
 
-    impl ValidateCairo101 of IAllInOneContract {
-        fn validate_various_exercises() {
-            ex01();
-            ex02();
-            ex03();
-            ex04();
-            ex05();
-            ex06();
-            ex07();
-            ex08();
-            ex09();
-            ex10();
-            ex11();
-            // ex12();
-            // ex13();
-        }
-    }
-
     #[external]
     fn validate_various_exercises() {
-        ValidateCairo101::validate_various_exercises();
+        ex01();
+        ex02();
+        ex03();
+        ex04();
+        ex05();
+        ex06();
+        ex07();
+        ex08();
+        ex09();
+        ex10();
+        ex11();
     }
 
     fn ex01() {
@@ -221,9 +212,9 @@ mod ValidateCairo101 {
     }
 
     fn ex04() {
-        //let contract_address = get_contract_address();
+        let contract_address = get_contract_address();
         Iex04Dispatcher { contract_address: ex04_address::read() }.assign_user_slot();
-        let slot = Iex04Dispatcher { contract_address: ex04_address::read() }.get_user_slots(get_contract_address()); // or contract_address
+        let slot = Iex04Dispatcher { contract_address: ex04_address::read() }.get_user_slots(contract_address); // or contract_address
         let value = Iex04Dispatcher { contract_address: ex04_address::read() }.get_values_mapped(slot);
         Iex04Dispatcher { contract_address: ex04_address::read() }.claim_points(value - 32_u128);
     }
@@ -233,14 +224,14 @@ mod ValidateCairo101 {
         Iex05Dispatcher { contract_address: ex05_address::read() }.assign_user_slot();
         Iex05Dispatcher { contract_address: ex05_address::read() }.copy_secret_value_to_readable_mapping();
         let value = Iex05Dispatcher { contract_address: ex05_address::read() }.get_user_values(contract_address);
-        Iex05Dispatcher { contract_address: ex05_address::read() }.claim_points(value + 23_u128);
+        Iex05Dispatcher { contract_address: ex05_address::read() }.claim_points(value - 9_u128);
     }
 
     fn ex06() {
-        //let contract_address = get_contract_address();
+        let contract_address = get_contract_address();
         Iex06Dispatcher { contract_address: ex06_address::read() }.assign_user_slot();
         Iex06Dispatcher { contract_address: ex06_address::read() }.external_handler_for_internal_function(1_u128);
-        let value = Iex06Dispatcher { contract_address: ex06_address::read() }.get_user_values(get_contract_address()); // or contract_address
+        let value = Iex06Dispatcher { contract_address: ex06_address::read() }.get_user_values(contract_address); // or contract_address
         Iex06Dispatcher { contract_address: ex06_address::read() }.claim_points(value);
     }
 
@@ -249,7 +240,7 @@ mod ValidateCairo101 {
     }
 
     fn ex08() {
-        // let contract_address = get_contract_address();
+        let contract_address = get_contract_address();
         let mut values = ArrayTrait::new();
         values.append(0_u128);
         values.append(1_u128);
@@ -262,7 +253,7 @@ mod ValidateCairo101 {
         values.append(8_u128);
         values.append(9_u128);
         values.append(10_u128);
-        Iex08Dispatcher { contract_address: ex08_address::read() }.set_user_values(get_contract_address(), values); // or contract_address
+        Iex08Dispatcher { contract_address: ex08_address::read() }.set_user_values(contract_address, values);
         Iex08Dispatcher { contract_address: ex08_address::read() }.claim_points();
     }
 
@@ -289,7 +280,7 @@ mod ValidateCairo101 {
 
     fn ex11() {
         let mut value = Iex11Dispatcher { contract_address: ex11_address::read() }.secret_value();
-        if (value > 340282366920938463463374607431768211455_u128 - 42069_u128) { value += 42069_u128; }
+        if (value + 42069_u128 > 340282366920938463463374607431768211455_u128- 42069_u128 ) { value += 42069_u128; }
         else { value -= 42069_u128; }
         Iex11Dispatcher { contract_address: ex11_address::read() }.claim_points(value, 101_u128);
     }
